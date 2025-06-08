@@ -1,0 +1,42 @@
+services:
+  db:
+    image: mysql:8.4.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: website-2_development
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    container_name: website_db
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+      - bundle-data:/usr/local/bundle
+    environment:
+      TZ: Asia/Tokyo
+      RAILS_ENV: development
+      RAILS_MAX_THREADS: 5
+    ports:
+      - "3000:3000"
+    container_name: website_api
+    tty: true
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  bundle-data:
