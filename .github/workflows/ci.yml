@@ -60,7 +60,6 @@ jobs:
       mysql:
         image: mysql
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_ROOT_PASSWORD: password
         ports:
           - 3306:3306
