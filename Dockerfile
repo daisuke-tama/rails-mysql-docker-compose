@@ -8,8 +8,8 @@ RUN apt-get update -qq && \
 WORKDIR /app
 
 # Gemfileのコピーとインストール
-COPY Gemfile /myapp/Gemfile
-COPY Gemfile.lock /myapp/Gemfile.lock
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
 RUN bundle install
 
 # アプリケーションのコピー
